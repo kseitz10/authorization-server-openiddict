@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
@@ -16,6 +17,15 @@ namespace AuthorizationServer.Controllers
 {
     public class AuthorizationController : Controller
     {
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public AuthorizationController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
         [HttpGet("~/connect/authorize")]
         [HttpPost("~/connect/authorize")]
         [IgnoreAntiforgeryToken]
@@ -24,11 +34,8 @@ namespace AuthorizationServer.Controllers
             var request = HttpContext.GetOpenIddictServerRequest() ??
                           throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
             
-            // Retrieve the user principal stored in the authentication cookie.
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
             // If the user principal can't be extracted, redirect the user to the login page.
-            if (!result.Succeeded)
+            if (!_signInManager.IsSignedIn(HttpContext.User))
             {
                 return Challenge(
                     authenticationSchemes: CookieAuthenticationDefaults.AuthenticationScheme,
@@ -43,9 +50,10 @@ namespace AuthorizationServer.Controllers
             var claims = new List<Claim>
             {
                 // 'subject' claim which is required
-                new Claim(OpenIddictConstants.Claims.Subject, result.Principal.Identity.Name),
-                new Claim("some claim", "some value").SetDestinations(OpenIddictConstants.Destinations.AccessToken),
-                new Claim(OpenIddictConstants.Claims.Email, "some@email").SetDestinations(OpenIddictConstants.Destinations.IdentityToken)
+                new Claim(OpenIddictConstants.Claims.Subject, HttpContext.User.Identity!.Name!),
+                //new Claim("some claim", "some value").SetDestinations(OpenIddictConstants.Destinations.AccessToken),
+                // TODO This might be a bug if 3rd party providers are used that do not use email as a name
+                new Claim(OpenIddictConstants.Claims.Email, HttpContext.User.Identity.Name).SetDestinations(OpenIddictConstants.Destinations.IdentityToken)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);

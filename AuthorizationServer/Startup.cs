@@ -13,12 +13,14 @@ namespace AuthorizationServer
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IWebHostEnvironment _environment;
+        private IConfiguration _configuration;
 
-        private IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            _environment = environment;
+            _configuration = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -27,12 +29,12 @@ namespace AuthorizationServer
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    options.LoginPath = "/account/login";
+                    options.LoginPath = "/identity/account/login";
                 });
             
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DbContext"));
+                options.UseSqlServer(_configuration.GetConnectionString("DbContext"));
                 options.UseOpenIddict();
             });
 
@@ -43,7 +45,6 @@ namespace AuthorizationServer
                     options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
                 })
 
-                // Register the OpenIddict server components.
                 .AddServer(options =>
                 {
                     options
@@ -58,10 +59,16 @@ namespace AuthorizationServer
                         .SetUserinfoEndpointUris("/connect/userinfo");
 
                     // Encryption and signing of tokens
-                    options
-                        .AddEphemeralEncryptionKey()
-                        .AddEphemeralSigningKey()
-                        .DisableAccessTokenEncryption();
+                    // See https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
+#if DEBUG
+                    options.AddDevelopmentEncryptionCertificate()
+                           .AddDevelopmentSigningCertificate();
+#else
+                    // TODO This would have to be changed prior to deployment.
+                    options.AddEphemeralEncryptionKey()
+                           .AddEphemeralSigningKey()
+                           .DisableAccessTokenEncryption();
+#endif
 
                     // Register scopes (permissions)
                     options.RegisterScopes("api");
@@ -71,7 +78,14 @@ namespace AuthorizationServer
                         .UseAspNetCore()
                         .EnableTokenEndpointPassthrough()
                         .EnableAuthorizationEndpointPassthrough()
-                        .EnableUserinfoEndpointPassthrough();            
+                        .EnableUserinfoEndpointPassthrough();
+                })
+
+                .AddValidation(options =>
+                {
+                    // For when the API and the authorization server are in the same project.
+                    // See https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#using-the-optionsuselocalserver-integration
+                    options.UseLocalServer();
                 });
 
             services.AddDatabaseDeveloperPageExceptionFilter();
@@ -79,7 +93,10 @@ namespace AuthorizationServer
                     .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
 
-            services.AddHostedService<TestData>();
+            if (_environment.IsDevelopment())
+            {
+                services.AddHostedService<TestData>();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
