@@ -1,0 +1,84 @@
+﻿@page
+@model AuthorizationServer.WebUI.Pages.Applications.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>OpenIddictApplication</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.ClientId" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.ClientId" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.ClientSecret" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.ClientSecret" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.ClientSecret" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.ConsentType" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.ConsentType" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.ConsentType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.DisplayName" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.DisplayName" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.DisplayNames" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.DisplayNames" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.DisplayNames" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.Permissions" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.Permissions" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.Permissions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.PostLogoutRedirectUris" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.PostLogoutRedirectUris" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.PostLogoutRedirectUris" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.Properties" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.Properties" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.Properties" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.RedirectUris" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.RedirectUris" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.RedirectUris" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.Requirements" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.Requirements" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.Requirements" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpenIddictApplication.Type" class="control-label"></label>
+                <input asp-for="OpenIddictApplication.Type" class="form-control" />
+                <span asp-validation-for="OpenIddictApplication.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
