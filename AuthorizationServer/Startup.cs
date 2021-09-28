@@ -91,7 +91,12 @@ namespace AuthorizationServer
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+#if DEBUG
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+#else
             services.AddRazorPages();
+#endif
 
             if (_environment.IsDevelopment())
             {
