@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AuthorizationServer.Application.Common.Security;
+
 using MediatR;
 
 using OpenIddict.Abstractions;
 
 namespace AuthorizationServer.Application.Applications.Queries.GetApplications
 {
+    [Authorize(Roles = UserRoles.ApplicationAdministrator)]
     public class GetApplicationsQuery : IRequest<IList<OpenIddictApplicationDescriptor>>
     {
     }

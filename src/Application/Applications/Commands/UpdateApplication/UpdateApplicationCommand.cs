@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using AuthorizationServer.Application.Common.Exceptions;
 using AuthorizationServer.Application.Common.Mappings;
+using AuthorizationServer.Application.Common.Security;
 
 using MediatR;
 
@@ -14,6 +15,7 @@ using OpenIddict.Abstractions;
 
 namespace AuthorizationServer.Application.Applications.Commands.UpdateApplication
 {
+    [Authorize(Roles = UserRoles.ApplicationAdministrator)]
     public class UpdateApplicationCommand : IRequest, IMapFrom<OpenIddictApplicationDescriptor>
     {
         /// <summary>

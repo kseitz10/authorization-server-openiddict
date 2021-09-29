@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using AuthorizationServer.Application.Common.Security;
 using AuthorizationServer.Infrastructure.Identity;
 
 using Microsoft.AspNetCore.Identity;
@@ -13,21 +14,33 @@ namespace AuthorizationServer.Infrastructure.Persistence
     {
         public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var administratorRole = new IdentityRole("Administrator");
+            await CreateRoleIfNotExists(roleManager, UserRoles.ApplicationAdministrator);
+            await CreateRoleIfNotExists(roleManager, UserRoles.UserAdministrator);
 
-            if (roleManager.Roles.All(r => r.Name != administratorRole.Name))
+            var administrator = new ApplicationUser { UserName = "admin@localhost", Email = "admin@localhost" };
+            await CreateUserIfNotExists(userManager, administrator, "Admin1!", new[] { UserRoles.ApplicationAdministrator, UserRoles.UserAdministrator });
+
+            var standardUser = new ApplicationUser { UserName = "user@localhost", Email = "user@localhost" };
+            await CreateUserIfNotExists(userManager, standardUser, "User1!", Array.Empty<string>());
+        }
+
+        private static async Task CreateUserIfNotExists(UserManager<ApplicationUser> userManager, ApplicationUser user, string password, string[] roles)
+        {
+            if (userManager.Users.All(u => u.UserName != user.UserName))
             {
-                await roleManager.CreateAsync(administratorRole);
+                await userManager.CreateAsync(user, password);
+                await userManager.AddToRolesAsync(user, roles);
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                await userManager.ConfirmEmailAsync(user, token);
             }
+        }
 
-            var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
-
-            if (userManager.Users.All(u => u.UserName != administrator.UserName))
+        private static async Task CreateRoleIfNotExists(RoleManager<IdentityRole> roleManager, string roleName)
+        {
+            var role = new IdentityRole(roleName);
+            if (roleManager.Roles.All(r => r.Name != role.Name))
             {
-                await userManager.CreateAsync(administrator, "Administrator1!");
-                await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
-                var token = await userManager.GenerateEmailConfirmationTokenAsync(administrator);
-                await userManager.ConfirmEmailAsync(administrator, token);
+                await roleManager.CreateAsync(role);
             }
         }
     }

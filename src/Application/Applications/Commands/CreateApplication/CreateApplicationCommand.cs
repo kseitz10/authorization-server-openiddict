@@ -5,12 +5,15 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AuthorizationServer.Application.Common.Security;
+
 using MediatR;
 
 using OpenIddict.Abstractions;
 
 namespace AuthorizationServer.Application.Applications.Commands.CreateApplication
 {
+    [Authorize(Roles = UserRoles.ApplicationAdministrator)]
     public class CreateApplicationCommand : IRequest<string>
     {
         /// <summary>

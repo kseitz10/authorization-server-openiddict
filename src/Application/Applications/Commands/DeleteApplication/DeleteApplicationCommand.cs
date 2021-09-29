@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AuthorizationServer.Application.Common.Exceptions;
+using AuthorizationServer.Application.Common.Security;
 
 using MediatR;
 
@@ -12,6 +13,7 @@ using OpenIddict.Abstractions;
 
 namespace AuthorizationServer.Application.Applications.Commands.DeleteApplication
 {
+    [Authorize(Roles = UserRoles.ApplicationAdministrator)]
     public class DeleteApplicationCommand : IRequest
     {
         public DeleteApplicationCommand(string clientId)

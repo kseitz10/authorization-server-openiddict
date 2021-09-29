@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 using AuthorizationServer.Application.Applications.Commands.DeleteApplication;
 using AuthorizationServer.Application.Applications.Queries.GetApplication;
 
-using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using OpenIddict.Abstractions;
-using OpenIddict.Core;
-using OpenIddict.EntityFrameworkCore.Models;
 
 namespace AuthorizationServer.WebUI.Pages.Applications
 {
