@@ -3,29 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using AuthorizationServer.Application.Applications.Commands.UpdateApplication;
+using AuthorizationServer.Application.Applications.Queries.GetApplication;
 
-using OpenIddict.Abstractions;
-using OpenIddict.Core;
-using OpenIddict.EntityFrameworkCore.Models;
+using AutoMapper;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthorizationServer.WebUI.Pages.Applications
 {
-    public class EditModel : PageModel
+    public class EditModel : PageBase
     {
-        private readonly OpenIddictApplicationManager<OpenIddictEntityFrameworkCoreApplication> _appManager;
+        private readonly IMapper _mapper;
 
-        public EditModel(OpenIddictApplicationManager<OpenIddictEntityFrameworkCoreApplication> appManager)
+        public EditModel(IMapper mapper)
         {
-            _appManager = appManager;
+            _mapper = mapper;
         }
 
         [BindProperty]
-        public OpenIddictApplicationDescriptor OpenIddictApplication { get; set; }
-        
-        [BindProperty]
-        public string Id { get; set; }
+        public UpdateApplicationCommand OpenIddictApplication { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -34,21 +31,11 @@ namespace AuthorizationServer.WebUI.Pages.Applications
                 return NotFound();
             }
 
-            var efObject = await _appManager.FindByIdAsync(id);
-            if (efObject == null)
-            {
-                return NotFound();
-            }
-
-            OpenIddictApplication = new OpenIddictApplicationDescriptor();
-            Id = efObject.Id;
-            await _appManager.PopulateAsync(OpenIddictApplication, efObject);
+            OpenIddictApplication = _mapper.Map<UpdateApplicationCommand>(await Mediator.Send(new GetApplicationQuery(id)));
 
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -56,18 +43,12 @@ namespace AuthorizationServer.WebUI.Pages.Applications
                 return Page();
             }
 
-            if (OpenIddictApplication == null || string.IsNullOrEmpty(Id))
+            if (OpenIddictApplication == null || string.IsNullOrEmpty(OpenIddictApplication.ClientId))
             {
                 return NotFound();
             }
 
-            var existing = await _appManager.FindByIdAsync(Id);
-            if (existing == null)
-            {
-                return NotFound();
-            }
-
-            await _appManager.UpdateAsync(existing);
+            await Mediator.Send(OpenIddictApplication);
 
             return RedirectToPage("./Index");
         }

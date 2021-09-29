@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using AuthorizationServer.Application.Applications.Commands.DeleteApplication;
+using AuthorizationServer.Application.Applications.Queries.GetApplication;
+
+using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,20 +17,10 @@ using OpenIddict.EntityFrameworkCore.Models;
 
 namespace AuthorizationServer.WebUI.Pages.Applications
 {
-    public class DeleteModel : PageModel
+    public class DeleteModel : PageBase
     {
-        private readonly OpenIddictApplicationManager<OpenIddictEntityFrameworkCoreApplication> _appManager;
-
-        public DeleteModel(OpenIddictApplicationManager<OpenIddictEntityFrameworkCoreApplication> appManager)
-        {
-            _appManager = appManager;
-        }
-
         [BindProperty]
         public OpenIddictApplicationDescriptor OpenIddictApplication { get; set; }
-
-        [BindProperty]
-        public string Id { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -34,33 +29,24 @@ namespace AuthorizationServer.WebUI.Pages.Applications
                 return NotFound();
             }
 
-            var efObject = await _appManager.FindByIdAsync(id);
-            if (efObject == null)
-            {
-                return NotFound();
-            }
-
-            OpenIddictApplication = new OpenIddictApplicationDescriptor();
-            Id = efObject.Id;
-            await _appManager.PopulateAsync(OpenIddictApplication, efObject);
+            OpenIddictApplication = await Mediator.Send(new GetApplicationQuery(id));
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            if (id == null || OpenIddictApplication == null)
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (string.IsNullOrWhiteSpace(id))
             {
                 return NotFound();
             }
 
-            var existing = await _appManager.FindByIdAsync(id);
-            if (existing == null)
-            {
-                return NotFound();
-            }
-
-            await _appManager.DeleteAsync(existing);
+            await Mediator.Send(new DeleteApplicationCommand(id));
 
             return RedirectToPage("./Index");
         }

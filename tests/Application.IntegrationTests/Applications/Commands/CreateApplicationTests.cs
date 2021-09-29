@@ -1,5 +1,5 @@
 ﻿using AuthorizationServer.Application.Common.Exceptions;
-using AuthorizationServer.Application.TodoLists.Commands.CreateTodoList;
+using AuthorizationServer.Application.TodoLists.Commands.CreateApplication;
 using AuthorizationServer.Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
@@ -10,12 +10,12 @@ namespace AuthorizationServer.Application.IntegrationTests.TodoLists.Commands
 {
     using static Testing;
 
-    public class CreateTodoListTests : TestBase
+    public class CreateApplicationTests : TestBase
     {
         [Test]
         public async Task ShouldRequireMinimumFields()
         {
-            var command = new CreateTodoListCommand();
+            var command = new CreateApplicationCommand();
 
             await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<ValidationException>();
         }
@@ -23,12 +23,12 @@ namespace AuthorizationServer.Application.IntegrationTests.TodoLists.Commands
         [Test]
         public async Task ShouldRequireUniqueTitle()
         {
-            await SendAsync(new CreateTodoListCommand
+            await SendAsync(new CreateApplicationCommand
             {
                 Title = "Shopping"
             });
 
-            var command = new CreateTodoListCommand
+            var command = new CreateApplicationCommand
             {
                 Title = "Shopping"
             };
@@ -37,11 +37,11 @@ namespace AuthorizationServer.Application.IntegrationTests.TodoLists.Commands
         }
 
         [Test]
-        public async Task ShouldCreateTodoList()
+        public async Task ShouldCreateApplication()
         {
             var userId = await RunAsDefaultUserAsync();
 
-            var command = new CreateTodoListCommand
+            var command = new CreateApplicationCommand
             {
                 Title = "Tasks"
             };

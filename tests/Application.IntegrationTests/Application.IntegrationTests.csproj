@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="TodoLists\Commands\CreateTodoListTests.cs" />
-    <Compile Remove="TodoLists\Commands\UpdateTodoListTests.cs" />
-    <Compile Remove="TodoLists\Queries\GetTodosTests.cs" />
+    <Compile Remove="Applications\Commands\CreateApplicationTests.cs" />
+    <Compile Remove="Applications\Commands\UpdateApplicationTests.cs" />
+    <Compile Remove="Applications\Queries\GetApplicationsTests.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="TodoLists\Commands\CreateTodoListTests.cs" />
-    <None Include="TodoLists\Commands\UpdateTodoListTests.cs" />
-    <None Include="TodoLists\Queries\GetTodosTests.cs" />
+    <None Include="Applications\Commands\CreateApplicationTests.cs" />
+    <None Include="Applications\Commands\UpdateApplicationTests.cs" />
+    <None Include="Applications\Queries\GetApplicationsTests.cs" />
   </ItemGroup>
 
   <ItemGroup>

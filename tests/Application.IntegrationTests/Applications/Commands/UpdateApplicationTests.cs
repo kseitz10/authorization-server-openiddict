@@ -1,6 +1,6 @@
 ﻿using AuthorizationServer.Application.Common.Exceptions;
-using AuthorizationServer.Application.TodoLists.Commands.CreateTodoList;
-using AuthorizationServer.Application.TodoLists.Commands.UpdateTodoList;
+using AuthorizationServer.Application.TodoLists.Commands.CreateApplication;
+using AuthorizationServer.Application.TodoLists.Commands.UpdateApplication;
 using AuthorizationServer.Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
@@ -11,12 +11,12 @@ namespace AuthorizationServer.Application.IntegrationTests.TodoLists.Commands
 {
     using static Testing;
 
-    public class UpdateTodoListTests : TestBase
+    public class UpdateApplicationTests : TestBase
     {
         [Test]
         public async Task ShouldRequireValidTodoListId()
         {
-            var command = new UpdateTodoListCommand
+            var command = new UpdateApplicationCommand
             {
                 Id = 99,
                 Title = "New Title"
@@ -28,17 +28,17 @@ namespace AuthorizationServer.Application.IntegrationTests.TodoLists.Commands
         [Test]
         public async Task ShouldRequireUniqueTitle()
         {
-            var listId = await SendAsync(new CreateTodoListCommand
+            var listId = await SendAsync(new CreateApplicationCommand
             {
                 Title = "New List"
             });
 
-            await SendAsync(new CreateTodoListCommand
+            await SendAsync(new CreateApplicationCommand
             {
                 Title = "Other List"
             });
 
-            var command = new UpdateTodoListCommand
+            var command = new UpdateApplicationCommand
             {
                 Id = listId,
                 Title = "Other List"
@@ -50,16 +50,16 @@ namespace AuthorizationServer.Application.IntegrationTests.TodoLists.Commands
         }
 
         [Test]
-        public async Task ShouldUpdateTodoList()
+        public async Task ShouldUpdateApplication()
         {
             var userId = await RunAsDefaultUserAsync();
 
-            var listId = await SendAsync(new CreateTodoListCommand
+            var listId = await SendAsync(new CreateApplicationCommand
             {
                 Title = "New List"
             });
 
-            var command = new UpdateTodoListCommand
+            var command = new UpdateApplicationCommand
             {
                 Id = listId,
                 Title = "Updated List Title"

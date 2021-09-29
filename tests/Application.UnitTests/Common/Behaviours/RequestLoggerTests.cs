@@ -30,7 +30,7 @@
 
 //            var requestLogger = new LoggingBehaviour<CreateTodoItemCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-//            await requestLogger.Process(new CreateTodoItemCommand { ListId = 1, Title = "title" }, new CancellationToken());
+//            await requestLogger.Process(new CreateTodoItemCommand { ListId = 1, ClientId = "title" }, new CancellationToken());
 
 //            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Once);
 //        }
@@ -40,7 +40,7 @@
 //        {
 //            var requestLogger = new LoggingBehaviour<CreateTodoItemCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-//            await requestLogger.Process(new CreateTodoItemCommand { ListId = 1, Title = "title" }, new CancellationToken());
+//            await requestLogger.Process(new CreateTodoItemCommand { ListId = 1, ClientId = "title" }, new CancellationToken());
 
 //            _identityService.Verify(i => i.GetUserNameAsync(null), Times.Never);
 //        }

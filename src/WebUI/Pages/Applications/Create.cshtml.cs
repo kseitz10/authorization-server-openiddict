@@ -3,33 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using AuthorizationServer.Application.Applications.Commands.CreateApplication;
 
-using OpenIddict.Abstractions;
-using OpenIddict.Core;
-using OpenIddict.EntityFrameworkCore.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthorizationServer.WebUI.Pages.Applications
 {
-    public class CreateModel : PageModel
+    public class CreateModel : PageBase
     {
-        private readonly OpenIddictApplicationManager<OpenIddictEntityFrameworkCoreApplication> _appManager;
-
-        public CreateModel(OpenIddictApplicationManager<OpenIddictEntityFrameworkCoreApplication> appManager)
-        {
-            _appManager = appManager;
-        }
-
         [BindProperty]
-        public OpenIddictApplicationDescriptor OpenIddictApplication { get; set; }
+        public CreateApplicationCommand OpenIddictApplication { get; set; } = new();
 
         public IActionResult OnGet()
         {
             return Page();
         }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -37,7 +26,7 @@ namespace AuthorizationServer.WebUI.Pages.Applications
                 return Page();
             }
 
-            await _appManager.CreateAsync(OpenIddictApplication);
+            await Mediator.Send(OpenIddictApplication);
 
             return RedirectToPage("./Index");
         }

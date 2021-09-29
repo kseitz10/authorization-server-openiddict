@@ -1,4 +1,4 @@
-﻿using AuthorizationServer.Application.TodoLists.Queries.GetTodos;
+﻿using AuthorizationServer.Application.TodoLists.Queries.GetApplications;
 using AuthorizationServer.Domain.Entities;
 using AuthorizationServer.Domain.ValueObjects;
 using FluentAssertions;
@@ -10,12 +10,12 @@ namespace AuthorizationServer.Application.IntegrationTests.TodoLists.Queries
 {
     using static Testing;
 
-    public class GetTodosTests : TestBase
+    public class GetApplicationsTests : TestBase
     {
         [Test]
         public async Task ShouldReturnPriorityLevels()
         {
-            var query = new GetTodosQuery();
+            var query = new GetApplicationsQuery();
 
             var result = await SendAsync(query);
 
@@ -41,7 +41,7 @@ namespace AuthorizationServer.Application.IntegrationTests.TodoLists.Queries
                     }
             });
 
-            var query = new GetTodosQuery();
+            var query = new GetApplicationsQuery();
 
             var result = await SendAsync(query);
 

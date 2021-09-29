@@ -7,14 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\TodoItem.cs" />
-    <Compile Remove="Entities\TodoList.cs" />
+    <Compile Remove="Entities\Application.cs" />
     <Compile Remove="ValueObjects\Colour.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Entities\TodoItem.cs" />
-    <None Include="Entities\TodoList.cs" />
+    <None Include="Entities\Application.cs" />
     <None Include="ValueObjects\Colour.cs" />
   </ItemGroup>
 

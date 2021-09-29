@@ -286,7 +286,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoListCommand"
+                "$ref": "#/components/schemas/CreateApplicationCommand"
               }
             }
           },
@@ -336,7 +336,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTodoListCommand"
+                "$ref": "#/components/schemas/UpdateApplicationCommand"
               }
             }
           },
@@ -612,7 +612,7 @@
           }
         }
       },
-      "CreateTodoListCommand": {
+      "CreateApplicationCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -622,7 +622,7 @@
           }
         }
       },
-      "UpdateTodoListCommand": {
+      "UpdateApplicationCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
