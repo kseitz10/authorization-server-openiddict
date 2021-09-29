@@ -1,6 +1,11 @@
-﻿using AuthorizationServer.Application.Common.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+
+using AuthorizationServer.Application.Common.Interfaces;
+
+using Microsoft.AspNetCore.Http;
 
 namespace AuthorizationServer.WebUI.Services
 {

@@ -1,8 +1,13 @@
-﻿using AutoMapper;
-using AuthorizationServer.Application.Common.Mappings;
-using NUnit.Framework;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+
+using AuthorizationServer.Application.Common.Mappings;
+
+using AutoMapper;
+
+using NUnit.Framework;
 
 namespace AuthorizationServer.Application.UnitTests.Common.Mappings
 {
@@ -13,10 +18,7 @@ namespace AuthorizationServer.Application.UnitTests.Common.Mappings
 
         public MappingTests()
         {
-            _configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
+            _configuration = new MapperConfiguration(cfg => { cfg.AddProfile<MappingProfile>(); });
 
             _mapper = _configuration.CreateMapper();
         }
@@ -26,7 +28,7 @@ namespace AuthorizationServer.Application.UnitTests.Common.Mappings
         {
             _configuration.AssertConfigurationIsValid();
         }
-        
+
         //[Test]
         //[TestCase(typeof(TodoList), typeof(TodoListDto))]
         //[TestCase(typeof(TodoItem), typeof(TodoItemDto))]

@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using FluentValidation;
+
 using MediatR;
+
 using ValidationException = AuthorizationServer.Application.Common.Exceptions.ValidationException;
 
 namespace AuthorizationServer.Application.Common.Behaviours
@@ -30,6 +34,7 @@ namespace AuthorizationServer.Application.Common.Behaviours
                 if (failures.Count != 0)
                     throw new ValidationException(failures);
             }
+
             return await next();
         }
     }

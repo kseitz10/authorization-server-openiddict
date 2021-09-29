@@ -1,7 +1,11 @@
-﻿using AuthorizationServer.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using AuthorizationServer.Infrastructure.Identity;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace AuthorizationServer.Infrastructure.Persistence
 {
@@ -21,7 +25,7 @@ namespace AuthorizationServer.Infrastructure.Persistence
             if (userManager.Users.All(u => u.UserName != administrator.UserName))
             {
                 await userManager.CreateAsync(administrator, "Administrator1!");
-                await userManager.AddToRolesAsync(administrator, new [] { administratorRole.Name });
+                await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(administrator);
                 await userManager.ConfirmEmailAsync(administrator, token);
             }

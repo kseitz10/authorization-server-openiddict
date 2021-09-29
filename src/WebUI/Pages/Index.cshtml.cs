@@ -18,7 +18,6 @@ namespace AuthorizationServer.WebUI.Pages
 
         public void OnGet()
         {
-
         }
     }
 }

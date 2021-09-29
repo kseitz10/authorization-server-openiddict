@@ -1,22 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using AuthorizationServer.Application;
 using AuthorizationServer.Application.Common.Interfaces;
 using AuthorizationServer.Infrastructure;
 using AuthorizationServer.Infrastructure.Persistence;
 using AuthorizationServer.WebUI.Filters;
 using AuthorizationServer.WebUI.Services;
+
 using FluentValidation.AspNetCore;
+
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
-
-using AuthorizationServer;
-
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 
 namespace AuthorizationServer.WebUI
 {
@@ -38,10 +40,7 @@ namespace AuthorizationServer.WebUI
             services.AddInfrastructure(Configuration, identity => identity.AddDefaultUI(), opts => opts.SignIn.RequireConfirmedAccount = true);
 
             services.AddOpenIddict()
-                    .AddCore(options =>
-                    {
-                        options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
-                    })
+                    .AddCore(options => { options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>(); })
                     .AddServer(options =>
                     {
                         options
@@ -91,16 +90,13 @@ namespace AuthorizationServer.WebUI
             services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>();
+                    .AddDbContextCheck<ApplicationDbContext>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-                    {
-                        options.LoginPath = "/identity/account/login";
-                    });
+                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => { options.LoginPath = "/identity/account/login"; });
 
             services.AddControllers(options =>
-                options.Filters.Add<ApiExceptionFilterAttribute>())
+                                        options.Filters.Add<ApiExceptionFilterAttribute>())
                     .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
 
 #if DEBUG
@@ -110,10 +106,7 @@ namespace AuthorizationServer.WebUI
 #endif
 
             // Customise default API behaviour
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
+            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
             if (Environment.IsDevelopment())
             {

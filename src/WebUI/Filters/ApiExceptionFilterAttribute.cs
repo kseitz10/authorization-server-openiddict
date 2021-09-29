@@ -1,15 +1,17 @@
-﻿using AuthorizationServer.Application.Common.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using AuthorizationServer.Application.Common.Exceptions;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
 
 namespace AuthorizationServer.WebUI.Filters
 {
     public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
-
         private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
 
         public ApiExceptionFilterAttribute()
@@ -33,7 +35,7 @@ namespace AuthorizationServer.WebUI.Filters
 
         private void HandleException(ExceptionContext context)
         {
-            Type type = context.Exception.GetType();
+            var type = context.Exception.GetType();
             if (_exceptionHandlers.ContainsKey(type))
             {
                 _exceptionHandlers[type].Invoke(context);

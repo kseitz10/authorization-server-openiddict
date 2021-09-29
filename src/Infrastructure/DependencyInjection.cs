@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using AuthorizationServer.Application.Common.Interfaces;
 using AuthorizationServer.Infrastructure.Identity;
 using AuthorizationServer.Infrastructure.Persistence;
 using AuthorizationServer.Infrastructure.Services;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -44,10 +48,7 @@ namespace AuthorizationServer.Infrastructure
             services.AddAuthorization(options => { options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator")); });
 
             services.AddOpenIddict()
-                    .AddCore(options =>
-                    {
-                        options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
-                    });
+                    .AddCore(options => { options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>(); });
 
             return services;
         }

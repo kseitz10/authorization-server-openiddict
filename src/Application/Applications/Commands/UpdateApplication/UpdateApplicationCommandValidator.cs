@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 using FluentValidation;
-
-using OpenIddict.Abstractions;
 
 namespace AuthorizationServer.Application.Applications.Commands.UpdateApplication
 {

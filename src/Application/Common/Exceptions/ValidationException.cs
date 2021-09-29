@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using FluentValidation.Results;
 
 namespace AuthorizationServer.Application.Common.Exceptions
@@ -17,8 +18,8 @@ namespace AuthorizationServer.Application.Common.Exceptions
             : this()
         {
             Errors = failures
-                .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
-                .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
+                     .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+                     .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
         }
 
         public IDictionary<string, string[]> Errors { get; }

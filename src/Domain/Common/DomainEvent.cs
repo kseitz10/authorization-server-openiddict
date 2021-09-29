@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AuthorizationServer.Domain.Common
 {
@@ -14,6 +15,7 @@ namespace AuthorizationServer.Domain.Common
         {
             DateOccurred = DateTimeOffset.UtcNow;
         }
+
         public bool IsPublished { get; set; }
         public DateTimeOffset DateOccurred { get; protected set; } = DateTime.UtcNow;
     }

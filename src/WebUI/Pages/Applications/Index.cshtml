@@ -1,4 +1,7 @@
 ﻿@page
+@using System
+@using System.Collections.Generic
+@using System.Linq
 @model AuthorizationServer.WebUI.Pages.Applications.IndexModel
 
 @{
@@ -12,44 +15,44 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OpenIddictApplications[0].ClientId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OpenIddictApplications[0].DisplayName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OpenIddictApplications[0].DisplayNames)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OpenIddictApplications[0].Type)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenIddictApplications[0].ClientId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenIddictApplications[0].DisplayName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenIddictApplications[0].DisplayNames)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenIddictApplications[0].Type)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.OpenIddictApplications)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClientId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisplayName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisplayNames)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ClientId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.ClientId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.ClientId">Delete</a>
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model.OpenIddictApplications)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayNames)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ClientId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ClientId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ClientId">Delete</a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

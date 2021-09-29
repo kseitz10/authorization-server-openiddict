@@ -1,10 +1,14 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using AuthorizationServer.Application.Common.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using AuthorizationServer.Application.Common.Models;
+
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthorizationServer.Application.Common.Mappings
 {

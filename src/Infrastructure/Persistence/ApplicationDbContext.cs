@@ -1,12 +1,16 @@
-﻿using AuthorizationServer.Application.Common.Interfaces;
-using AuthorizationServer.Domain.Common;
-using AuthorizationServer.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
+using AuthorizationServer.Application.Common.Interfaces;
+using AuthorizationServer.Domain.Common;
+using AuthorizationServer.Infrastructure.Identity;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthorizationServer.Infrastructure.Persistence
 {
@@ -63,10 +67,10 @@ namespace AuthorizationServer.Infrastructure.Persistence
             while (true)
             {
                 var domainEventEntity = ChangeTracker.Entries<IHasDomainEvent>()
-                    .Select(x => x.Entity.DomainEvents)
-                    .SelectMany(x => x)
-                    .Where(domainEvent => !domainEvent.IsPublished)
-                    .FirstOrDefault();
+                                                     .Select(x => x.Entity.DomainEvents)
+                                                     .SelectMany(x => x)
+                                                     .Where(domainEvent => !domainEvent.IsPublished)
+                                                     .FirstOrDefault();
                 if (domainEventEntity == null) break;
 
                 domainEventEntity.IsPublished = true;

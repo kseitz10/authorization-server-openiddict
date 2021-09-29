@@ -1,12 +1,15 @@
-﻿using AuthorizationServer.Application.Common.Exceptions;
-using AuthorizationServer.Application.Common.Interfaces;
-using AuthorizationServer.Application.Common.Security;
-using MediatR;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
+using AuthorizationServer.Application.Common.Exceptions;
+using AuthorizationServer.Application.Common.Interfaces;
+using AuthorizationServer.Application.Common.Security;
+
+using MediatR;
 
 namespace AuthorizationServer.Application.Common.Behaviours
 {
@@ -65,7 +68,7 @@ namespace AuthorizationServer.Application.Common.Behaviours
                 var authorizeAttributesWithPolicies = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.Policy));
                 if (authorizeAttributesWithPolicies.Any())
                 {
-                    foreach(var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
+                    foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
                     {
                         var authorized = await _identityService.AuthorizeAsync(_currentUserService.UserId, policy);
 

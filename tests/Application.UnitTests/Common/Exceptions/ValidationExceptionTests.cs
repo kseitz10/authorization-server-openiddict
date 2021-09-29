@@ -1,9 +1,14 @@
-﻿using AuthorizationServer.Application.Common.Exceptions;
-using FluentAssertions;
-using FluentValidation.Results;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
+using AuthorizationServer.Application.Common.Exceptions;
+
+using FluentAssertions;
+
+using FluentValidation.Results;
+
+using NUnit.Framework;
 
 namespace AuthorizationServer.Application.UnitTests.Common.Exceptions
 {
@@ -48,14 +53,14 @@ namespace AuthorizationServer.Application.UnitTests.Common.Exceptions
 
             actual.Keys.Should().BeEquivalentTo(new string[] { "Password", "Age" });
 
-            actual["Age"].Should().BeEquivalentTo(new string[] 
-            { 
-                "must be 25 or younger", 
+            actual["Age"].Should().BeEquivalentTo(new string[]
+            {
+                "must be 25 or younger",
                 "must be 18 or older",
             });
 
-            actual["Password"].Should().BeEquivalentTo(new string[] 
-            { 
+            actual["Password"].Should().BeEquivalentTo(new string[]
+            {
                 "must contain lower case letter",
                 "must contain upper case letter",
                 "must contain at least 8 characters",

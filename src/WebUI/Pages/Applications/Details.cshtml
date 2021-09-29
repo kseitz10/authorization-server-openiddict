@@ -1,4 +1,7 @@
 ﻿@page
+@using System
+@using System.Collections.Generic
+@using System.Linq
 @model AuthorizationServer.WebUI.Pages.Applications.DetailsModel
 
 @{
@@ -9,7 +12,7 @@
 
 <div>
     <h4>OpenIddictApplication</h4>
-    <hr />
+    <hr/>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.OpenIddictApplication.ClientId)

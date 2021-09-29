@@ -37,7 +37,7 @@ namespace AuthorizationServer.WebUI.Controllers
         {
             var request = HttpContext.GetOpenIddictServerRequest() ??
                           throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
-            
+
             // If the user principal can't be extracted, redirect the user to the login page.
             if (!_signInManager.IsSignedIn(HttpContext.User))
             {
@@ -46,7 +46,7 @@ namespace AuthorizationServer.WebUI.Controllers
                     properties: new AuthenticationProperties
                     {
                         RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
-                            Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
+                                          Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
                     });
             }
 
@@ -70,7 +70,7 @@ namespace AuthorizationServer.WebUI.Controllers
             // Signing in with the OpenIddict authentiction scheme trigger OpenIddict to issue a code (which can be exchanged for an access token)
             return SignIn(claimsPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
-        
+
         [HttpPost("~/connect/token")]
         public async Task<IActionResult> Exchange()
         {
@@ -102,7 +102,7 @@ namespace AuthorizationServer.WebUI.Controllers
                 // Retrieve the claims principal stored in the authorization code
                 claimsPrincipal = (await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)).Principal;
             }
-            
+
             else if (request.IsRefreshTokenGrantType())
             {
                 // Retrieve the claims principal stored in the refresh token.
@@ -117,7 +117,7 @@ namespace AuthorizationServer.WebUI.Controllers
             // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
             return SignIn(claimsPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
-        
+
         [Authorize(AuthenticationSchemes = OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)]
         [HttpGet("~/connect/userinfo")]
         public async Task<IActionResult> Userinfo()

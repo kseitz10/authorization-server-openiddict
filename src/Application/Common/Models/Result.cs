@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AuthorizationServer.Application.Common.Models
@@ -12,7 +13,6 @@ namespace AuthorizationServer.Application.Common.Models
         }
 
         public bool Succeeded { get; set; }
-
         public string[] Errors { get; set; }
 
         public static Result Success()

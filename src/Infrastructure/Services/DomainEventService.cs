@@ -1,10 +1,15 @@
-﻿using AuthorizationServer.Application.Common.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using AuthorizationServer.Application.Common.Interfaces;
 using AuthorizationServer.Application.Common.Models;
 using AuthorizationServer.Domain.Common;
+
 using MediatR;
+
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace AuthorizationServer.Infrastructure.Services
 {
