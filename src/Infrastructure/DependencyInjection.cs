@@ -26,8 +26,7 @@ namespace AuthorizationServer.Infrastructure
                 }
                 else
                 {
-                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+                    options.UseCosmos(configuration.GetConnectionString("DefaultConnection"), "ks01cosmos");
                 }
 
                 options.UseOpenIddict();

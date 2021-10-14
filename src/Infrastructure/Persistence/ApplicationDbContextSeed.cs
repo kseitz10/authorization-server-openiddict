@@ -26,7 +26,7 @@ namespace AuthorizationServer.Infrastructure.Persistence
 
         private static async Task CreateUserIfNotExists(UserManager<ApplicationUser> userManager, ApplicationUser user, string password, string[] roles)
         {
-            if (userManager.Users.All(u => u.UserName != user.UserName))
+            if (userManager.Users.AsEnumerable().All(u => u.UserName != user.UserName))
             {
                 await userManager.CreateAsync(user, password);
                 await userManager.AddToRolesAsync(user, roles);
@@ -38,7 +38,7 @@ namespace AuthorizationServer.Infrastructure.Persistence
         private static async Task CreateRoleIfNotExists(RoleManager<IdentityRole> roleManager, string roleName)
         {
             var role = new IdentityRole(roleName);
-            if (roleManager.Roles.All(r => r.Name != role.Name))
+            if (roleManager.Roles.AsEnumerable().All(r => r.Name != role.Name))
             {
                 await roleManager.CreateAsync(role);
             }

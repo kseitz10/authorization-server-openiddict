@@ -11,10 +11,13 @@ using AuthorizationServer.Infrastructure.Identity;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
+using PieroDeTomi.EntityFrameworkCore.Identity.Cosmos;
 
 namespace AuthorizationServer.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext : CosmosIdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IDateTime _dateTime;
@@ -24,7 +27,7 @@ namespace AuthorizationServer.Infrastructure.Persistence
             DbContextOptions options,
             ICurrentUserService currentUserService,
             IDomainEventService domainEventService,
-            IDateTime dateTime) : base(options)
+            IDateTime dateTime) : base(options, Options.Create(new IdentityServer4.EntityFramework.Options.OperationalStoreOptions()))
         {
             _currentUserService = currentUserService;
             _domainEventService = domainEventService;
